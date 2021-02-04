@@ -1,7 +1,8 @@
+use anyhow::Context;
 use std::env;
 use std::process;
 
-use okku::config::Config;
+use okku::{run, Config};
 
 #[tokio::main]
 async fn main() {
@@ -10,5 +11,11 @@ async fn main() {
         process::exit(1);
     });
 
-    println!("{:?}", config);
+    match run(&config)
+        .await
+        .with_context(|| "Okku CLI had an issue and terminated its process!")
+    {
+        Ok(_) => println!("Okku session exited with success!"),
+        Err(e) => println!("{:?}", e),
+    }
 }
