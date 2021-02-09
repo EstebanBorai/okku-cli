@@ -64,4 +64,8 @@ impl TextField {
     pub fn backspace(&mut self) {
         self.current_value.pop();
     }
+
+    pub fn clear(&mut self) {
+        self.current_value.clear();
+    }
 }

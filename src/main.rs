@@ -16,6 +16,6 @@ async fn main() {
         .with_context(|| "Okku CLI had an issue and terminated its process!")
     {
         Ok(_) => println!("Okku session exited with success!"),
-        Err(e) => println!("{:?}", e),
+        Err(e) => eprintln!("{:?}", e),
     }
 }
