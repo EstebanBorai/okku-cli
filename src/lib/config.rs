@@ -1,4 +1,4 @@
-use anyhow::{Context, Error, Result};
+use anyhow::{Error, Result};
 use hyper::Uri;
 use std::env::{var, Args};
 use std::str::FromStr;

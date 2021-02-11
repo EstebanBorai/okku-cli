@@ -39,9 +39,9 @@ impl UI {
         user_id: Uuid,
         chat_id: Uuid,
         out_pcl_tx: Sender<OutputParcel>,
-        in_pcl_rx: Receiver<Parcel>,
+        in_message_rx: Receiver<Parcel>,
     ) -> Self {
-        let messages = messages::Messages::new(chat_id, in_pcl_rx);
+        let messages = messages::Messages::new(chat_id, in_message_rx);
 
         Self {
             user_id,

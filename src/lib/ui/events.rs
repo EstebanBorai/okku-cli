@@ -29,8 +29,10 @@ pub enum Event<T> {
 /// polling the events channel
 pub struct EventHandler {
     ignore_exit_key: Arc<AtomicBool>,
+    #[allow(dead_code)]
     input_handle: JoinHandle<()>,
     rx: Receiver<Event<Key>>,
+    #[allow(dead_code)]
     tick_handle: JoinHandle<()>,
 }
 

@@ -1,7 +1,6 @@
 mod api;
 mod config;
 mod entity;
-mod io;
 mod run;
 mod ui;
 mod utils;

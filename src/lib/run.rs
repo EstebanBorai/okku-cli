@@ -1,5 +1,4 @@
 use anyhow::Result;
-use chrono::Utc;
 use futures::SinkExt;
 use futures::StreamExt;
 use serde_json::from_str as json_from_str;
@@ -8,12 +7,9 @@ use tokio;
 use tokio::sync::mpsc::channel;
 use tokio_tungstenite::tungstenite::Message;
 
+use crate::api::{Api, WebSocket};
 use crate::config::Config;
 use crate::entity::proto::{OutputParcel, Parcel};
-use crate::{
-    api::{Api, WebSocket},
-    entity,
-};
 
 use crate::ui::UI;
 
