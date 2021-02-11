@@ -28,7 +28,7 @@ pub async fn run(config: &Config) -> Result<()> {
     );
 
     // This field must be gathered from the consumer of the application
-    let chat_id = uuid::Uuid::from_str("aa52d536-19dc-4d03-820d-8ec1302c295b").unwrap();
+    let chat_id = uuid::Uuid::from_str("10c941f5-f2cc-4f74-890b-34ad5c24fadd").unwrap();
 
     let ws = WebSocket::new(
         config.server_address.as_str(),

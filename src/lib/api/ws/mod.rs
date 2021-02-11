@@ -10,7 +10,7 @@ pub struct WebSocket {
 impl WebSocket {
     pub async fn new(server_address: &str, token: &str) -> Result<Self> {
         let api_url = format!(
-            "ws://{server_address}/api/v1/chats?token={token}",
+            "ws://{server_address}/api/v1/chats?token={token}&frontend=terminal",
             server_address = server_address,
             token = token
         );
