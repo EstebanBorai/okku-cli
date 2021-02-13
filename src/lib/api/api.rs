@@ -1,9 +1,10 @@
 use anyhow::{Error, Result};
+use uuid::Uuid;
 
 use crate::config::Config;
 
 use super::Client;
-use super::MeResponse;
+use super::{FetchChatMessagesResponse, MeResponse};
 
 pub struct Api {
     client: Client,
@@ -29,7 +30,13 @@ impl Api {
         Err(Error::msg("Token is not available"))
     }
 
+    /// Fetches: GET /api/v1/auth/me
     pub async fn auth_me(&self) -> Result<MeResponse> {
         self.client.get::<MeResponse>("api/v1/auth/me").await
+    }
+
+    /// Fetches: GET /api/v1/chats/:chat_id/messages
+    pub async fn chat_messages(&self, chat_id: &Uuid) -> Result<FetchChatMessagesResponse> {
+        self.client.get::<FetchChatMessagesResponse>(&format!("api/v1/chats/{}/messages", chat_id.to_string())).await
     }
 }

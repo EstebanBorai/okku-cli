@@ -25,6 +25,7 @@ pub async fn run(config: &Config) -> Result<()> {
 
     // This field must be gathered from the consumer of the application
     let chat_id = uuid::Uuid::from_str("10c941f5-f2cc-4f74-890b-34ad5c24fadd").unwrap();
+    let chat_history = okku_api.chat_messages(&chat_id).await.unwrap();
 
     let ws = WebSocket::new(
         config.server_address.as_str(),
@@ -35,6 +36,11 @@ pub async fn run(config: &Config) -> Result<()> {
     let (mut sink, mut stream) = ws.stream.split();
     let (out_pcl_tx, mut out_pcl_rx) = channel::<OutputParcel>(1024);
     let (in_message_tx, in_message_rx) = channel::<Parcel>(1024);
+
+    for message in chat_history.messages {
+        in_message_tx.send(Parcel::LocalMessage(message)).await.unwrap();
+    }
+
     let ui = UI::new(current_user_id, chat_id, out_pcl_tx, in_message_rx);
 
     let read_proc = tokio::spawn(async move {
