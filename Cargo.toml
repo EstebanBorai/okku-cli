@@ -28,5 +28,6 @@ termion = "1"
 tokio = { version = "1", features = ["full"] }
 tokio-tungstenite = "0.13"
 tui = "0.14"
+url = "2"
 unicode-width = "0.1"
 uuid = { version = "0.8", features = ["serde", "v4"] }

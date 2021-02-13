@@ -14,12 +14,8 @@ use crate::entity::proto::{OutputParcel, Parcel};
 use crate::ui::UI;
 
 pub async fn run(config: &Config) -> Result<()> {
-    let okku_api = Api::new(config);
-    let login_response = okku_api
-        .login(config.username.as_str(), config.password.as_str())
-        .await?;
-
-    let me_response = okku_api.me(&login_response.token).await?;
+    let okku_api = Api::new(config).await?;
+    let me_response = okku_api.auth_me().await?;
     let current_user_id = me_response.user.id;
 
     println!(
@@ -32,7 +28,7 @@ pub async fn run(config: &Config) -> Result<()> {
 
     let ws = WebSocket::new(
         config.server_address.as_str(),
-        login_response.token.as_str(),
+        okku_api.token().unwrap().as_str(),
     )
     .await?;
 
@@ -49,7 +45,11 @@ pub async fn run(config: &Config) -> Result<()> {
                         Ok(_) => {}
                         Err(e) => eprintln!("An error ocurred! {}", e.to_string()),
                     },
-                    Err(e) => eprintln!("{}", e.to_string()),
+                    Err(e) => eprintln!(
+                        "An error ocurred parsing message into struct: {}\nReceived: {:#?}",
+                        e.to_string(),
+                        message.to_string(),
+                    ),
                 }
             }
         }
