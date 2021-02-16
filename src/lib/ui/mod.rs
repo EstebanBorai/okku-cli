@@ -9,7 +9,6 @@ use termion::screen::AlternateScreen;
 use tokio::sync::mpsc::{Receiver, Sender};
 use tui::backend::TermionBackend;
 use tui::layout::{Constraint, Direction, Layout};
-use tui::widgets::{Block, Borders};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 use uuid::Uuid;
@@ -59,25 +58,19 @@ impl UI {
         loop {
             terminal
                 .draw(|f| {
-                    let info_header = Block::default().title("Okku").borders(Borders::ALL);
                     let chunks = Layout::default()
                         .direction(Direction::Vertical)
                         .margin(2)
-                        .constraints([
-                            Constraint::Percentage(10),
-                            Constraint::Percentage(80),
-                            Constraint::Percentage(10),
-                        ])
+                        .constraints([Constraint::Percentage(90), Constraint::Percentage(10)])
                         .split(f.size());
 
-                    f.render_widget(info_header, chunks[0]);
-                    f.render_widget(self.messages.draw().unwrap(), chunks[1]);
-                    f.render_widget(text_field.draw().unwrap(), chunks[2]);
+                    f.render_widget(self.messages.draw().unwrap(), chunks[0]);
+                    f.render_widget(text_field.draw().unwrap(), chunks[1]);
 
                     if matches!(text_field.input_mode(), text_field::Mode::Insert) {
                         f.set_cursor(
-                            chunks[2].x + text_field.value().width() as u16 + 1,
-                            chunks[2].y + 1,
+                            chunks[1].x + text_field.value().width() as u16 + 1,
+                            chunks[1].y + 1,
                         );
                     }
                 })

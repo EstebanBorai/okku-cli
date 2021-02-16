@@ -1,4 +1,4 @@
-use serde::{Deserialize};
+use serde::Deserialize;
 
 use crate::entity::message::Message;
 use crate::entity::profile::Profile;

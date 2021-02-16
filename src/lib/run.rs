@@ -2,7 +2,6 @@ use anyhow::Result;
 use futures::SinkExt;
 use futures::StreamExt;
 use serde_json::from_str as json_from_str;
-use std::str::FromStr;
 use tokio;
 use tokio::sync::mpsc::channel;
 use tokio_tungstenite::tungstenite::Message;
@@ -24,7 +23,7 @@ pub async fn run(config: &Config) -> Result<()> {
     );
 
     // This field must be gathered from the consumer of the application
-    let chat_id = uuid::Uuid::from_str("10c941f5-f2cc-4f74-890b-34ad5c24fadd").unwrap();
+    let chat_id = config.chat_id;
     let chat_history = okku_api.chat_messages(&chat_id).await.unwrap();
 
     let ws = WebSocket::new(
@@ -38,7 +37,10 @@ pub async fn run(config: &Config) -> Result<()> {
     let (in_message_tx, in_message_rx) = channel::<Parcel>(1024);
 
     for message in chat_history.messages {
-        in_message_tx.send(Parcel::LocalMessage(message)).await.unwrap();
+        in_message_tx
+            .send(Parcel::LocalMessage(message))
+            .await
+            .unwrap();
     }
 
     let ui = UI::new(current_user_id, chat_id, out_pcl_tx, in_message_rx);

@@ -37,6 +37,11 @@ impl Api {
 
     /// Fetches: GET /api/v1/chats/:chat_id/messages
     pub async fn chat_messages(&self, chat_id: &Uuid) -> Result<FetchChatMessagesResponse> {
-        self.client.get::<FetchChatMessagesResponse>(&format!("api/v1/chats/{}/messages", chat_id.to_string())).await
+        self.client
+            .get::<FetchChatMessagesResponse>(&format!(
+                "api/v1/chats/{}/messages",
+                chat_id.to_string()
+            ))
+            .await
     }
 }
