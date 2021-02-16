@@ -1,6 +1,6 @@
 <div>
   <div align="center" style="display: block; text-align: center;">
-    <img src="./docs/images/logo.png" height="120" width="120" />
+    <img src="https://raw.githubusercontent.com/EstebanBorai/okku-cli/main/docs/logo.png" height="120" width="120" />
   </div>
   <h1 align="center">okku-cli</h1>
   <h4 align="center">
